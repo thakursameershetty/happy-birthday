@@ -287,6 +287,23 @@
             object-position: center;
             display: block;
         }
+
+        /* Progressive Blur at the bottom of the viewport */
+        .progressive-blur-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            pointer-events: none;
+            z-index: 9000;
+            user-select: none;
+            background: linear-gradient(to bottom, transparent, #fdfcfb);
+            -webkit-mask-image: linear-gradient(to top, black 50%, transparent);
+            mask-image: linear-gradient(to top, black 50%, transparent);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
     </style>
     <!-- Importing beautiful fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,7 +330,7 @@
     </audio>
 
     <div class="hero-section">
-        <h1 class="main-title">Happy 21 mittarrrrrr 🎀🎀🎀</h1>
+        <h1 class="main-title">Happiesttt 21 mittarrrrrr 🎀🎀🎀</h1>
     </div>
 
     <div class="container">
@@ -331,7 +348,7 @@
             <img src="https://i.pinimg.com/736x/ec/e9/c6/ece9c6e3b38c5f4f1113ca569325314b.jpg" class="asset rot-2"
                 alt="Memory 2">
             <div class="message-text">
-                So 21st bday... hmmnn, Yipeeeeee
+                So 21st bday... hmmnn, Yipppiieeeeee
             </div>
         </div>
 
@@ -361,7 +378,7 @@
             <img src="https://i.pinimg.com/736x/6f/46/ff/6f46ffdbca1b21962a409686fbf2fce5.jpg" class="asset rot-5"
                 alt="Memory 5">
             <div class="message-text">
-                Sooooo... Happy Birthday to my cloosestt hoomannn beingg....
+                Sooooo... Happy Birthday to my cloosestt and cooolesttt hoomannn beingg of my lifee....
             </div>
             <div class="message-text">
                 Keep Winning and Slayingggg 💅🏻....
@@ -378,7 +395,7 @@
     <!-- Scattered Flowers Footer -->
     <div class="flower-cluster" id="flowerCluster">
         <div class="heart-center">❤️</div>
-        nd <img src="flowers/flowers1.png" class="flower-img"
+        <img src="flowers/flowers1.png" class="flower-img"
             style="--angle: 0deg; --rot: rotate(-15deg); animation-delay: 0.1s; z-index: 1;">
         <img src="flowers/flowers2.png" class="flower-img"
             style="--angle: 60deg; --rot: rotate(12deg); animation-delay: 0.25s; z-index: 2;">
@@ -396,6 +413,9 @@
     <div class="final-image" id="finalImage">
         <img src="https://i.pinimg.com/1200x/67/17/12/671712abd4381bd73aacc1b1b6978cc4.jpg" alt="Final Memory">
     </div>
+
+    <!-- Progressive Blur overlay -->
+    <div class="progressive-blur-bottom"></div>
 
     <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
