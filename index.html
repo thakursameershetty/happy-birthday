@@ -181,6 +181,27 @@
             }
         }
 
+        .heart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 3.5rem;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .flower-cluster.visible .heart-center {
+            animation: popHeart 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.8s;
+        }
+
+        @keyframes popHeart {
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
         /* Audio Toggle Button */
         .audio-toggle {
             position: fixed;
@@ -351,15 +372,13 @@
         <div class="memory-block">
             <img src="https://i.pinimg.com/736x/33/cb/8a/33cb8a8e3c5ca038af4238aee3bc47fe.jpg" class="asset rot-2"
                 alt="Memory 6">
-            <div class="message-text">
-                ❤️
-            </div>
         </div>
     </div>
 
     <!-- Scattered Flowers Footer -->
     <div class="flower-cluster" id="flowerCluster">
-        <img src="flowers/flowers1.png" class="flower-img"
+        <div class="heart-center">❤️</div>
+        nd <img src="flowers/flowers1.png" class="flower-img"
             style="--angle: 0deg; --rot: rotate(-15deg); animation-delay: 0.1s; z-index: 1;">
         <img src="flowers/flowers2.png" class="flower-img"
             style="--angle: 60deg; --rot: rotate(12deg); animation-delay: 0.25s; z-index: 2;">
