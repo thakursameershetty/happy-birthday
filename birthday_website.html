@@ -172,6 +172,52 @@
                 transform: translateY(0) scale(1) var(--rot);
             }
         }
+
+        /* Audio Toggle Button */
+        .audio-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .audio-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .bar {
+            width: 4px;
+            height: 6px;
+            background-color: #333;
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+
+        /* Playing animation */
+        .audio-toggle.playing .bar {
+            animation: sound 1s infinite ease-in-out alternate;
+        }
+        .audio-toggle.playing .bar:nth-child(1) { animation-delay: 0s; }
+        .audio-toggle.playing .bar:nth-child(2) { animation-delay: 0.2s; }
+        .audio-toggle.playing .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes sound {
+            0% { height: 6px; }
+            100% { height: 18px; }
+        }
     </style>
     <!-- Importing beautiful fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -183,8 +229,15 @@
 </head>
 
 <body>
+    <!-- Audio Control Button -->
+    <div class="audio-toggle" id="audioToggle">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
     <!-- Background Music -->
-    <audio id="bg-music" autoplay loop>
+    <audio id="bg-music" loop>
         <source
             src="https://res.cloudinary.com/dbn2ye2zo/video/upload/v1783707846/ABBA_-_Mamma_Mia_Official_Music_Video_hfxgeu.mp3"
             type="audio/mpeg">
@@ -332,25 +385,34 @@
             // Fire confetti immediately when the page loads
             fireConfetti();
 
-            // Background Music Logic (handle browser autoplay restrictions)
+            // Background Music Logic
             const bgMusic = document.getElementById('bg-music');
-            const playMusic = () => {
+            const audioToggle = document.getElementById('audioToggle');
+
+            // Start playing only when user scrolls
+            const startOnScroll = () => {
                 if (bgMusic.paused) {
                     bgMusic.play().then(() => {
-                        // Once successfully playing, remove the listeners
-                        document.removeEventListener('click', playMusic);
-                        document.removeEventListener('scroll', playMusic);
-                        document.removeEventListener('touchstart', playMusic);
+                        audioToggle.classList.add('playing');
+                        document.removeEventListener('scroll', startOnScroll);
                     }).catch(() => {
-                        // Autoplay blocked, wait for next interaction
+                        // Ignore autoplay block errors
                     });
                 }
             };
+            
+            document.addEventListener('scroll', startOnScroll, { once: true });
 
-            // Try to play on any user interaction
-            document.addEventListener('click', playMusic);
-            document.addEventListener('scroll', playMusic);
-            document.addEventListener('touchstart', playMusic);
+            // Play/Pause button logic
+            audioToggle.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    audioToggle.classList.add('playing');
+                } else {
+                    bgMusic.pause();
+                    audioToggle.classList.remove('playing');
+                }
+            });
         });
     </script>
 </body>
