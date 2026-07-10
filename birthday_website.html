@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        /* Reset and general styling */
+        body {
+            background-color: #fdfcfb;
+            /* Subtle warm paper white */
+            margin: 0;
+            padding: 80px 20px;
+            font-family: 'Playfair Display', 'Georgia', serif;
+            color: #222;
+            overflow-x: hidden;
+            /* Prevent horizontal scroll from rotated elements */
+        }
+
+        /* Subtle paper grain overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        /* Container for perfectly vertical arrangements */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 200px;
+            /* Large gap to accommodate 30-45 degree rotations without overlapping */
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Wrapper for each memory block */
+        .memory-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Class added by JavaScript when scrolled into view */
+        .memory-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Asset (Image/Video) styling */
+        .asset {
+            max-width: 320px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            /* Soft shadow to pop against white */
+            margin-bottom: 60px;
+            /* Space between the rotated asset and the text */
+            border: 10px solid #fff;
+            /* Polaroid feel */
+        }
+
+        /* Random rotations between 5 and 10 degrees (+ or -) */
+        .rot-1 {
+            transform: rotate(8deg);
+        }
+
+        .rot-2 {
+            transform: rotate(-7deg);
+        }
+
+        .rot-3 {
+            transform: rotate(5deg);
+        }
+
+        .rot-4 {
+            transform: rotate(-9deg);
+        }
+
+        .rot-5 {
+            transform: rotate(10deg);
+        }
+
+        /* Text below the asset */
+        .message-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            max-width: 650px;
+            font-style: italic;
+            color: #444;
+            padding: 0 20px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-title {
+            font-size: 4rem;
+            /* slightly larger for cursive readability */
+            margin-bottom: 120px;
+            text-align: center;
+            font-family: 'Edu NSW ACT Cursive', cursive;
+            font-weight: 700;
+            color: #111;
+            letter-spacing: 1px;
+            animation: fadeInDown 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        /* Specific styling for the video element */
+        video.asset {
+            background-color: #f0f0f0;
+            object-fit: cover;
+        }
+
+        /* Flower Footer Section */
+        .flower-cluster {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 80px auto 150px;
+            padding: 0 20px;
+        }
+
+        .flower-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 6px solid #fff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(60px) scale(0.6) rotate(0deg);
+            margin: -15px;
+            /* Overlap effect */
+            position: relative;
+        }
+
+        /* Create a staggering bouncy pop-up effect */
+        .flower-cluster.visible .flower-img {
+            animation: popUpFlower 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes popUpFlower {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) var(--rot);
+            }
+        }
+    </style>
+    <!-- Importing beautiful fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <h1 class="main-title">Happy 21st Birthday! 🎀🎀🎀</h1>
+
+    <div class="container">
+        <!-- Asset 1 -->
+        <div class="memory-block">
+            <img src="https://i.pinimg.com/736x/8f/41/d0/8f41d0268494bf209e81fd6ad655e7b9.jpg" class="asset rot-1"
+                alt="Memory 1">
+            <div class="message-text">
+                Soooooo, Idk much but I was hoping this year might be soooo damnnn good for you...✨
+            </div>
+        </div>
+
+        <!-- Asset 2 -->
+        <div class="memory-block">
+            <img src="https://i.pinimg.com/736x/ec/e9/c6/ece9c6e3b38c5f4f1113ca569325314b.jpg" class="asset rot-2"
+                alt="Memory 2">
+            <div class="message-text">
+                So 21st bday... hmmnn, Yipeeeeee
+            </div>
+        </div>
+
+        <!-- Asset 3 (Video) -->
+        <div class="memory-block">
+            <!-- Note: Replaced with local video path since user is downloading it -->
+            <video src="video.mp4" class="asset rot-3" controls loop autoplay muted></video>
+            <div class="message-text">
+                You deserve the whole world... Enjoy mittarrrr.
+            </div>
+            <div class="message-text">
+                DO NOT WORRY AT ALLLLL.
+            </div>
+        </div>
+
+        <!-- Asset 4 -->
+        <div class="memory-block">
+            <img src="https://i.pinimg.com/1200x/e9/64/5c/e9645c4c3f9ebd96ccc2b14610dedd67.jpg" class="asset rot-4"
+                alt="Memory 4">
+            <div class="message-text">
+                Sooo no matter what.... keep DIVAing...
+            </div>
+        </div>
+
+        <!-- Asset 5 -->
+        <div class="memory-block">
+            <img src="https://i.pinimg.com/736x/6f/46/ff/6f46ffdbca1b21962a409686fbf2fce5.jpg" class="asset rot-5"
+                alt="Memory 5">
+            <div class="message-text">
+                Sooooo... Happy Birthday to my cloosestt hoomannn beingg....
+            </div>
+            <div class="message-text">
+                Keep Winning and Slayingggg 💅🏻....
+            </div>
+        </div>
+
+        <!-- Asset 6 -->
+        <div class="memory-block">
+            <img src="https://i.pinimg.com/736x/33/cb/8a/33cb8a8e3c5ca038af4238aee3bc47fe.jpg" class="asset rot-2"
+                alt="Memory 6">
+            <div class="message-text">
+                ❤️
+            </div>
+        </div>
+    </div>
+
+    <!-- Scattered Flowers Footer -->
+    <div class="flower-cluster" id="flowerCluster">
+        <img src="https://i.pinimg.com/736x/36/7d/54/367d54cff579ca36ad9685d3838fc68f.jpg" class="flower-img"
+            style="--rot: rotate(-15deg); animation-delay: 0.1s; z-index: 1;">
+        <img src="https://i.pinimg.com/736x/fd/e0/43/fde043e85915716e2f2c815afbc56e53.jpg" class="flower-img"
+            style="--rot: rotate(12deg); animation-delay: 0.25s; z-index: 2;">
+        <img src="https://i.pinimg.com/736x/7a/4f/98/7a4f987dda7ec0d1b8cee0f7e005e747.jpg" class="flower-img"
+            style="--rot: rotate(-8deg); animation-delay: 0.4s; z-index: 3;">
+        <img src="https://i.pinimg.com/736x/6c/53/5f/6c535f0937b2b476cb4041bbc67b3f46.jpg" class="flower-img"
+            style="--rot: rotate(18deg); animation-delay: 0.55s; z-index: 4;">
+        <img src="https://i.pinimg.com/736x/44/fc/75/44fc75b8428cbf4a907dc5141047a931.jpg" class="flower-img"
+            style="--rot: rotate(-22deg); animation-delay: 0.7s; z-index: 5;">
+        <img src="https://i.pinimg.com/736x/21/1a/0e/211a0efcd8015a8757b1491342b4725c.jpg" class="flower-img"
+            style="--rot: rotate(10deg); animation-delay: 0.85s; z-index: 6;">
+    </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const memoryBlocks = document.querySelectorAll('.memory-block');
+
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Unobserve to animate only once
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Triggers when 15% of the block is visible
+            });
+
+            // Observe all memory blocks
+            memoryBlocks.forEach(block => {
+                observer.observe(block);
+            });
+
+            // Observe the flower cluster
+            const flowerCluster = document.getElementById('flowerCluster');
+            if (flowerCluster) {
+                observer.observe(flowerCluster);
+            }
+
+            // Function to fire beautiful confetti
+            function fireConfetti() {
+                var duration = 3000;
+                var end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', '#bae1ff'] // Soft pastel colors
+                    });
+                    confetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', '#bae1ff']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }
+
+            // Fire confetti immediately when the page loads
+            fireConfetti();
+        });
+    </script>
+</body>
+
+</html>
