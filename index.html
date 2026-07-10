@@ -120,16 +120,25 @@
             }
         }
 
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -80px; /* Offset body padding-top to ensure true vertical centering */
+        }
+
         .main-title {
             font-size: 4rem;
             /* slightly larger for cursive readability */
-            margin-bottom: 120px;
             text-align: center;
             font-family: 'Edu NSW ACT Cursive', cursive;
             font-weight: 700;
             color: #111;
             letter-spacing: 1px;
             animation: fadeInDown 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            margin: 0;
+            margin-top: -100px; /* Slight optical adjustment upwards */
         }
 
         /* Specific styling for the video element */
@@ -282,7 +291,9 @@
             type="audio/mpeg">
     </audio>
 
-    <h1 class="main-title">Happy 21st Birthday! 🎀🎀🎀</h1>
+    <div class="hero-section">
+        <h1 class="main-title">Happy 21 mittarrrrrr 🎀🎀🎀</h1>
+    </div>
 
     <div class="container">
         <!-- Asset 1 -->
