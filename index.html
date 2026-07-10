@@ -326,7 +326,7 @@
     </div>
 
     <!-- Background Music -->
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
         <source
             src="https://res.cloudinary.com/dbn2ye2zo/video/upload/v1783707846/ABBA_-_Mamma_Mia_Official_Music_Video_hfxgeu.mp3"
             type="audio/mpeg">
@@ -524,19 +524,24 @@
             const bgMusic = document.getElementById('bg-music');
             const audioToggle = document.getElementById('audioToggle');
 
-            // Start playing only when user scrolls
-            const startOnScroll = () => {
-                if (bgMusic.paused) {
-                    bgMusic.play().then(() => {
-                        audioToggle.classList.add('playing');
-                        document.removeEventListener('scroll', startOnScroll);
-                    }).catch(() => {
-                        // Ignore autoplay block errors
+            let isPlayPending = false;
+            const startAudio = () => {
+                if (!bgMusic.paused || isPlayPending) return;
+                
+                isPlayPending = true;
+                bgMusic.play().then(() => {
+                    audioToggle.classList.add('playing');
+                    ['scroll', 'wheel', 'touchstart', 'click', 'keydown'].forEach(evt => {
+                        document.removeEventListener(evt, startAudio);
                     });
-                }
+                }).catch(() => {
+                    isPlayPending = false; // Allow trying again on next interaction
+                });
             };
 
-            document.addEventListener('scroll', startOnScroll, { once: true });
+            ['scroll', 'wheel', 'touchstart', 'click', 'keydown'].forEach(evt => {
+                document.addEventListener(evt, startAudio, { passive: true });
+            });
 
             // Play/Pause button logic
             audioToggle.addEventListener('click', () => {
