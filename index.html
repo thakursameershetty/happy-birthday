@@ -11,7 +11,9 @@
         /* Reset and general styling */
         body {
             background-color: #fdfcfb;
-            /* Subtle warm paper white */
+            background-image: linear-gradient(135deg, rgba(255, 235, 245, 0.6) 0%, rgba(255, 248, 225, 0.6) 100%);
+            background-attachment: fixed;
+            /* Subtle warm paper white with pink/yellow gradient */
             margin: 0;
             padding: 80px 20px;
             font-family: 'Playfair Display', 'Georgia', serif;
@@ -298,7 +300,8 @@
             pointer-events: none;
             z-index: 9000;
             user-select: none;
-            background: linear-gradient(to bottom, transparent, #fdfcfb);
+            background: linear-gradient(to bottom, transparent, #fdf4eb);
+            /* matched to blended bottom color */
             -webkit-mask-image: linear-gradient(to top, black 50%, transparent);
             mask-image: linear-gradient(to top, black 50%, transparent);
             -webkit-backdrop-filter: blur(4px);
