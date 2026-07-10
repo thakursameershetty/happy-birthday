@@ -374,36 +374,44 @@
         document.addEventListener('DOMContentLoaded', () => {
             const memoryBlocks = document.querySelectorAll('.memory-block');
 
-            // Intersection Observer for scroll animations
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Unobserve to animate only once
-                    }
+            // Set up Intersection Observer, but only start observing after first scroll
+            let observer;
+            const initAnimations = () => {
+                if (observer) return;
+
+                observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target); // Unobserve to animate only once
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.15 // Triggers when 15% of the block is visible
                 });
-            }, {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15 // Triggers when 15% of the block is visible
-            });
 
-            // Observe all memory blocks
-            memoryBlocks.forEach(block => {
-                observer.observe(block);
-            });
+                // Observe all memory blocks
+                memoryBlocks.forEach(block => {
+                    observer.observe(block);
+                });
 
-            // Observe the flower cluster
-            const flowerCluster = document.getElementById('flowerCluster');
-            if (flowerCluster) {
-                observer.observe(flowerCluster);
-            }
+                // Observe the flower cluster
+                const flowerCluster = document.getElementById('flowerCluster');
+                if (flowerCluster) {
+                    observer.observe(flowerCluster);
+                }
 
-            // Observe the final image
-            const finalImage = document.getElementById('finalImage');
-            if (finalImage) {
-                observer.observe(finalImage);
-            }
+                // Observe the final image
+                const finalImage = document.getElementById('finalImage');
+                if (finalImage) {
+                    observer.observe(finalImage);
+                }
+            };
+
+            // Trigger animations to start watching elements only when scrolling starts
+            document.addEventListener('scroll', initAnimations, { once: true });
 
             // Function to fire beautiful confetti
             function fireConfetti() {
