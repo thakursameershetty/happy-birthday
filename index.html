@@ -125,7 +125,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: -80px; /* Offset body padding-top to ensure true vertical centering */
+            margin-top: -80px;
+            /* Offset body padding-top to ensure true vertical centering */
         }
 
         .main-title {
@@ -138,7 +139,8 @@
             letter-spacing: 1px;
             animation: fadeInDown 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
             margin: 0;
-            margin-top: -100px; /* Slight optical adjustment upwards */
+            margin-top: -100px;
+            /* Slight optical adjustment upwards */
         }
 
         /* Specific styling for the video element */
@@ -149,35 +151,33 @@
 
         /* Flower Footer Section */
         .flower-cluster {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            max-width: 800px;
-            margin: 80px auto 150px;
-            padding: 0 20px;
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 100px auto 150px;
+            border-radius: 50%;
         }
 
         .flower-img {
-            width: 140px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 130px;
             height: auto;
             opacity: 0;
-            transform: translateY(60px) scale(0.6) rotate(0deg);
-            margin: -15px;
-            /* Overlap effect */
-            position: relative;
+            transform: translate(-50%, -50%) scale(0.2);
             filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.15));
         }
 
         /* Create a staggering bouncy pop-up effect */
         .flower-cluster.visible .flower-img {
-            animation: popUpFlower 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: popUpFlower 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         @keyframes popUpFlower {
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1) var(--rot);
+                transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-160px) rotate(calc(-1 * var(--angle))) scale(1) var(--rot);
             }
         }
 
@@ -360,17 +360,17 @@
     <!-- Scattered Flowers Footer -->
     <div class="flower-cluster" id="flowerCluster">
         <img src="flowers/flowers1.png" class="flower-img"
-            style="--rot: rotate(-15deg); animation-delay: 0.1s; z-index: 1;">
+            style="--angle: 0deg; --rot: rotate(-15deg); animation-delay: 0.1s; z-index: 1;">
         <img src="flowers/flowers2.png" class="flower-img"
-            style="--rot: rotate(12deg); animation-delay: 0.25s; z-index: 2;">
+            style="--angle: 60deg; --rot: rotate(12deg); animation-delay: 0.25s; z-index: 2;">
         <img src="flowers/flowers3.png" class="flower-img"
-            style="--rot: rotate(-8deg); animation-delay: 0.4s; z-index: 3;">
+            style="--angle: 120deg; --rot: rotate(-8deg); animation-delay: 0.4s; z-index: 3;">
         <img src="flowers/flowers4.png" class="flower-img"
-            style="--rot: rotate(18deg); animation-delay: 0.55s; z-index: 4;">
+            style="--angle: 180deg; --rot: rotate(18deg); animation-delay: 0.55s; z-index: 4;">
         <img src="flowers/flowers5.png" class="flower-img"
-            style="--rot: rotate(-22deg); animation-delay: 0.7s; z-index: 5;">
+            style="--angle: 240deg; --rot: rotate(-22deg); animation-delay: 0.7s; z-index: 5;">
         <img src="flowers/flowers6.png" class="flower-img"
-            style="--rot: rotate(10deg); animation-delay: 0.85s; z-index: 6;">
+            style="--angle: 300deg; --rot: rotate(10deg); animation-delay: 0.85s; z-index: 6;">
     </div>
 
     <!-- Complete Bottom Final Image -->
