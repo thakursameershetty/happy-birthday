@@ -460,6 +460,30 @@
                 }
             };
 
+            // Observer to hide the progressive blur when footer elements are visible
+            const blurObserver = new IntersectionObserver((entries) => {
+                const blurElement = document.querySelector('.progressive-blur-bottom');
+                if (!blurElement) return;
+
+                const isVisible = entries.some(entry => entry.isIntersecting);
+                if (isVisible) {
+                    blurElement.style.opacity = '0';
+                    blurElement.style.transition = 'opacity 0.8s ease';
+                } else {
+                    blurElement.style.opacity = '1';
+                    blurElement.style.transition = 'opacity 0.5s ease';
+                }
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            });
+
+            const flowerClusterElem = document.getElementById('flowerCluster');
+            if (flowerClusterElem) blurObserver.observe(flowerClusterElem);
+            const finalImageElem = document.getElementById('finalImage');
+            if (finalImageElem) blurObserver.observe(finalImageElem);
+
             // Trigger animations to start watching elements only when scrolling starts
             document.addEventListener('scroll', initAnimations, { once: true });
 
